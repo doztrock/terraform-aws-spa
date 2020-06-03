@@ -9,7 +9,7 @@ variable "content_default" {
     error = string
   })
   default = {
-    index = ""
+    index = "index.html"
     error = null
   }
 }
