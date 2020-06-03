@@ -17,3 +17,22 @@ variable "content_default" {
 variable "content" {
   description = "Configuracion personalizada para el parametro website."
 }
+
+variable "cdn" {
+  default = []
+}
+
+
+variable "certificate" {
+}
+
+variable "tls-version" {
+  default = "TLSv1.2_2018"
+}
+
+variable "protocol-policy" {
+  default = "redirect-to-https"
+}
+
+
+

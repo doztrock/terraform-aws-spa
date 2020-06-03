@@ -37,20 +37,17 @@ resource "aws_s3_bucket_policy" "bucket_policy" {
   policy = data.aws_iam_policy_document.policy.json
 }
 
-/*
-resource "aws_cloudfront_distribution" "s3_distribution" {
+resource "aws_cloudfront_distribution" "distribution" {
   enabled             = true
   is_ipv6_enabled     = true
   price_class         = "PriceClass_All"
-  default_root_object = "index.html"
-  aliases = [
-    "bucket.sundevs.cloud"
-  ]
+  default_root_object = local.content.index
+  aliases             = var.cdn
   origin {
     domain_name = aws_s3_bucket.bucket.bucket_domain_name
     origin_id   = format("S3-%s", aws_s3_bucket.bucket.bucket)
     s3_origin_config {
-      origin_access_identity = aws_cloudfront_origin_access_identity.origin_access_identity.cloudfront_access_identity_path
+      origin_access_identity = aws_cloudfront_origin_access_identity.identity.cloudfront_access_identity_path
     }
   }
   default_cache_behavior {
@@ -63,7 +60,7 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
         forward = "none"
       }
     }
-    viewer_protocol_policy = "redirect-to-https"
+    viewer_protocol_policy = var.protocol-policy
   }
   custom_error_response {
     error_caching_min_ttl = 0
@@ -77,14 +74,13 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     }
   }
   viewer_certificate {
-    acm_certificate_arn      = "arn:aws:acm:us-east-1:766242209032:certificate/d3abcbcd-3add-4f1e-9c36-c011a23df8b3"
+    acm_certificate_arn      = var.certificate
     ssl_support_method       = "sni-only"
-    minimum_protocol_version = "TLSv1.2_2018"
+    minimum_protocol_version = var.tls-version
   }
   logging_config {
     bucket          = "sundevsrepositories.s3-us-west-2.amazonaws.com"
-    prefix          = "bucket.sundevs.cloud"
+    prefix          = aws_s3_bucket.bucket.bucket
     include_cookies = false
   }
 }
-*/
