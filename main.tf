@@ -1,16 +1,16 @@
-provider "aws" {
-  region = "us-east-1"
+locals {
+  content = merge(var.content_default, var.content)
 }
 
 resource "aws_s3_bucket" "bucket" {
-  bucket = "bucket.sundevs.cloud"
+  bucket = var.bucket
   acl    = "private"
   website {
-    index_document = "index.html"
-    error_document = "index.html"
+    index_document = local.content.index
+    error_document = local.content.error
   }
 }
-
+/*
 resource "aws_cloudfront_origin_access_identity" "origin_access_identity" {
 }
 
@@ -31,24 +31,6 @@ data "aws_iam_policy_document" "s3_policy" {
 resource "aws_s3_bucket_policy" "example" {
   bucket = aws_s3_bucket.bucket.id
   policy = data.aws_iam_policy_document.s3_policy.json
-}
-
-resource "aws_s3_bucket_object" "file" {
-  bucket       = aws_s3_bucket.bucket.id
-  key          = "index.html"
-  source       = "index.html"
-  content_type = "text/html"
-  acl          = "private"
-  etag         = filemd5("index.html")
-}
-
-resource "aws_s3_bucket_object" "image" {
-  bucket       = aws_s3_bucket.bucket.id
-  key          = "image.png"
-  source       = "image.png"
-  content_type = "image/png"
-  acl          = "private"
-  etag         = filemd5("image.png")
 }
 
 resource "aws_cloudfront_distribution" "s3_distribution" {
@@ -100,3 +82,4 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
     include_cookies = false
   }
 }
+*/
