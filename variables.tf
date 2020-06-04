@@ -19,7 +19,6 @@ variable "content" {
 }
 
 variable "cdn" {
-  default = []
 }
 
 variable "certificate_arn" {
@@ -45,4 +44,7 @@ variable "logging" {
   type = object({
     bucket = string
   })
+  default = {
+    bucket = null
+  }
 }
