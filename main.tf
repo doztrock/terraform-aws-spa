@@ -51,8 +51,8 @@ resource "aws_cloudfront_distribution" "distribution" {
     }
   }
   default_cache_behavior {
-    allowed_methods  = ["GET", "HEAD"]
-    cached_methods   = ["GET", "HEAD"]
+    allowed_methods  = var.allowed_methods
+    cached_methods   = var.cached_methods
     target_origin_id = format("S3-%s", aws_s3_bucket.bucket.bucket)
     forwarded_values {
       query_string = false
@@ -60,7 +60,7 @@ resource "aws_cloudfront_distribution" "distribution" {
         forward = "none"
       }
     }
-    viewer_protocol_policy = var.protocol-policy
+    viewer_protocol_policy = var.protocol_policy
   }
   custom_error_response {
     error_caching_min_ttl = 0
@@ -74,12 +74,12 @@ resource "aws_cloudfront_distribution" "distribution" {
     }
   }
   viewer_certificate {
-    acm_certificate_arn      = var.certificate
+    acm_certificate_arn      = var.certificate_arn
     ssl_support_method       = "sni-only"
-    minimum_protocol_version = var.tls-version
+    minimum_protocol_version = var.protocol_version
   }
   logging_config {
-    bucket          = "sundevsrepositories.s3-us-west-2.amazonaws.com"
+    bucket          = var.logging.bucket
     prefix          = aws_s3_bucket.bucket.bucket
     include_cookies = false
   }

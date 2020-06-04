@@ -22,17 +22,27 @@ variable "cdn" {
   default = []
 }
 
-
-variable "certificate" {
+variable "certificate_arn" {
 }
 
-variable "tls-version" {
+variable "protocol_version" {
   default = "TLSv1.2_2018"
 }
 
-variable "protocol-policy" {
+variable "protocol_policy" {
   default = "redirect-to-https"
 }
 
+variable "allowed_methods" {
+  default = ["GET", "HEAD"]
+}
 
+variable "cached_methods" {
+  default = ["GET", "HEAD"]
+}
 
+variable "logging" {
+  type = object({
+    bucket = string
+  })
+}
