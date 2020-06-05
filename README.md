@@ -26,7 +26,7 @@ module "spa" {
     index = "index.html"
     error = "error.html"
   }
-  certificate = "arn:aws:acm:region:account:certificate/certificate-identificator"
+  certificate = "arn:aws:acm:region:account:certificate"
   alias = [
     "bucket.sundevs.cloud"
   ]
@@ -53,7 +53,7 @@ module "spa" {
     index = "index.html"
     error = "error.html"
   }
-  certificate = "arn:aws:acm:region:account:certificate/certificate-identificator"
+  certificate = "arn:aws:acm:region:account:certificate"
   alias = [
     "spa.sundevs.cloud"
   ]
@@ -92,7 +92,7 @@ module "spa" {
   document = {
     index = "index.html"
   }
-  certificate = "arn:aws:acm:region:account:certificate/certificate-identificator"
+  certificate = "arn:aws:acm:region:account:certificate"
   alias = [
     "spa0.sundevs.cloud",
     "spa1.sundevs.cloud",
@@ -126,7 +126,7 @@ module "spa" {
     index = "index.html"
     error = "error.html"
   }
-  certificate = "arn:aws:acm:region:account:certificate/certificate-identificator"  
+  certificate = "arn:aws:acm:region:account:certificate"  
   protocol_version = "TLSv1.2_2018"
   protocol_policy = "redirect-to-https"
   allowed_methods = [
