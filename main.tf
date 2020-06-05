@@ -1,13 +1,13 @@
 locals {
-  content = merge(var.content_default, var.content)
+  document = merge(var.document_default, var.document)
 }
 
 resource "aws_s3_bucket" "bucket" {
   bucket = var.bucket
   acl    = "private"
   website {
-    index_document = local.content.index
-    error_document = local.content.error
+    index_document = local.document.index
+    error_document = local.document.error
   }
 }
 
@@ -42,8 +42,8 @@ resource "aws_cloudfront_distribution" "distribution-with-logging" {
   enabled             = true
   is_ipv6_enabled     = true
   price_class         = "PriceClass_All"
-  default_root_object = local.content.index
-  aliases             = var.cdn
+  default_root_object = local.document.index
+  aliases             = var.alias
   origin {
     domain_name = aws_s3_bucket.bucket.bucket_domain_name
     origin_id   = format("S3-%s", aws_s3_bucket.bucket.bucket)
@@ -75,7 +75,7 @@ resource "aws_cloudfront_distribution" "distribution-with-logging" {
     }
   }
   viewer_certificate {
-    acm_certificate_arn      = var.certificate_arn
+    acm_certificate_arn      = var.certificate
     ssl_support_method       = "sni-only"
     minimum_protocol_version = var.protocol_version
   }
@@ -90,8 +90,8 @@ resource "aws_cloudfront_distribution" "distribution-without-logging" {
   enabled             = true
   is_ipv6_enabled     = true
   price_class         = "PriceClass_All"
-  default_root_object = local.content.index
-  aliases             = var.cdn
+  default_root_object = local.document.index
+  aliases             = var.alias
   origin {
     domain_name = aws_s3_bucket.bucket.bucket_domain_name
     origin_id   = format("S3-%s", aws_s3_bucket.bucket.bucket)
@@ -123,7 +123,7 @@ resource "aws_cloudfront_distribution" "distribution-without-logging" {
     }
   }
   viewer_certificate {
-    acm_certificate_arn      = var.certificate_arn
+    acm_certificate_arn      = var.certificate
     ssl_support_method       = "sni-only"
     minimum_protocol_version = var.protocol_version
   }
