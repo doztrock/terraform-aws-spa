@@ -1,8 +1,8 @@
 variable "bucket" {
-  description = "Bucket"
+  description = "Bucket donde se encuentra el contenido."
 }
 
-variable "content_default" {
+variable "document_default" {
   description = "Configuracion por defecto para el parametro website."
   type = object({
     index = string
@@ -14,33 +14,40 @@ variable "content_default" {
   }
 }
 
-variable "content" {
+variable "document" {
   description = "Configuracion personalizada para el parametro website."
 }
 
-variable "cdn" {
+variable "alias" {
+  description = "Listado de registros CNAME asociados al CloudFront."
 }
 
-variable "certificate_arn" {
+variable "certificate" {
+  description = "ARN del certificado SSL."
 }
 
 variable "protocol_version" {
-  default = "TLSv1.2_2018"
+  description = "Version de TLS."
+  default     = "TLSv1.2_2018"
 }
 
 variable "protocol_policy" {
-  default = "redirect-to-https"
+  description = "Politica de manejo de HTTPS, puede ser allow-all, https-only o redirect-to-https"
+  default     = "redirect-to-https"
 }
 
 variable "allowed_methods" {
-  default = ["GET", "HEAD"]
+  description = "Listado de metodos que seran procesados por CloudFront."
+  default     = ["GET", "HEAD"]
 }
 
 variable "cached_methods" {
-  default = ["GET", "HEAD"]
+  description = "Listado de metodos que seran cacheados por CloudFront."
+  default     = ["GET", "HEAD"]
 }
 
 variable "logging" {
+  description = "Bucket donde se almacenaran los logs."
   type = object({
     bucket = string
   })
